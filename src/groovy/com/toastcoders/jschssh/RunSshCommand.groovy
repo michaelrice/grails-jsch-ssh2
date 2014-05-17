@@ -107,15 +107,4 @@ class RunSshCommand extends ConnectionInfo {
         }
         return null
     }
-
-    /**
-     * Runs a passed closure to implement builder-style operation.
-     *
-     * @param closure
-     */
-    private void run(Closure closure) {
-        closure.delegate = this
-        closure.resolveStrategy = Closure.OWNER_FIRST
-        closure.call()
-    }
 }

@@ -170,4 +170,16 @@ class ConnectionInfo {
             throw e
         }
     }
+
+    /**
+     * Runs a passed closure to implement builder-style operation.
+     *
+     * @param closure
+     */
+    public void run(Closure closure) {
+        closure.delegate = this
+        closure.resolveStrategy = Closure.OWNER_FIRST
+        closure.call()
+    }
+
 }
