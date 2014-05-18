@@ -77,12 +77,6 @@ class ConnectionInfo {
     public String host
 
     /**
-     * The command you wish to run on the remote server.
-     *
-     */
-    public String command
-
-    /**
      * The full path to the ssh config file you wish to load.
      * The file is loaded first, so options in the class
      * and in the application config will over ride what is in

@@ -24,6 +24,12 @@ class RunSshCommand extends ConnectionInfo {
     private Logger log = Logger.getLogger(RunSshCommand)
 
     /**
+     * The command you wish to run on the remote server.
+     *
+     */
+    public String command
+
+    /**
      * This provides a builder style method to execute a command on
      * a remote server using the ssh protocol.
      *
