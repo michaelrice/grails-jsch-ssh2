@@ -121,7 +121,7 @@ class RunSshCommand extends ConnectionInfo {
                     continue
                 }
                 log.trace("exit-status: " + channel.getExitStatus())
-                break;
+                break
             }
         }
         return response
