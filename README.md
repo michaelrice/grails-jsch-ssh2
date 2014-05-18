@@ -7,21 +7,23 @@ Grails Plugin using the jsch lib
 
 This plugin comes with a builder. From a controller in your grails app do the following
 
-    import com.toastcoders.jschssh.RunSshCommand
+```groovy
+import com.toastcoders.jschssh.RunSshCommand
 
-    class TestController {
+class TestController {
 
-        def index() {
+    def index() {
 
-            render new RunSshCommand().execute() {
-                host = "10.12.254.10"
-                username = "root"
-                password = "password"
-                command = "vmkping -X -c 1 10.12.254.1"
-                strictHostKeyChecking = "yes"
-            }
+        render new RunSshCommand().execute() {
+            host = "10.12.254.10"
+            username = "root"
+            password = "password"
+            command = "vmkping -X -c 1 10.12.254.1"
+            strictHostKeyChecking = "yes"
         }
     }
+}
+```
 
 If this were a VMWare ESXi 5.x HostSystem you would see output like the following:
 
