@@ -1,9 +1,12 @@
 jsch-ssh2
 =========
 
-Grails Plugin using the jsch lib
+Grails Plugin using the jsch lib. This plugin also provides several useful builders to ease usage.
+
 
 ### Usage
+
+#### RunSshCommand Builder Usage
 
 This plugin comes with a builder. From a controller in your grails app do the following
 
@@ -61,7 +64,49 @@ If this were a VMWare ESXi 5.x HostSystem you would see output like the followin
 </esxcli:output>
 ```
 
+#### ScpFileTo Builder Usage
+
+From a controller in your grails app do the following:
+
+```groovy
+import com.jcraft.jsch.JSchException
+import com.toastcoders.jschssh.RunSshCommand
+import com.toastcoders.jschssh.ScpFileTo
+
+
+class TestController {
+
+    def index() {
+
+        try {
+            new ScpFileTo().execute() {
+                host = "10.12.254.10"
+                username = "root"
+                password = "password"
+                localFile = "C:/users/errr/desktop/hello_world.txt"
+                remoteFile = "/tmp/hello_world.txt"
+                strictHostKeyChecking = "yes"
+                ptimestamp = false
+            }
+        }
+        catch (JSchException e) {
+            log.trace("Oh noes!!", e)
+        }
+
+        render new RunSshCommand().execute() {
+            host = "10.12.254.10"
+            username = "root"
+            password = "password"
+            command = "cat /tmp/hello_world.txt"
+            strictHostKeyChecking = "yes"
+        }
+    }
+}
+```
+
+This would cause the contents of the "hello_world.txt" file to get printed to the screen. You would also have a file created in ```/tmp``` named ```hello_world.txt```
+
 
 ### TODO
 
-Need to implement scp and sftp
+Need to implement scp fetch and sftp put & fetch
