@@ -118,9 +118,9 @@ class ConnectionInfo {
         return Holders.config.jschSsh2
     }
 
-    public Session getSession() throws JSchException {
+    public Session fetchSession() throws JSchException {
         try {
-            log.debug("Executing command on remote server.")
+            log.debug("Opening connection on remote server.")
             JSch jSch = new JSch()
             // session object used once connected
             Session session

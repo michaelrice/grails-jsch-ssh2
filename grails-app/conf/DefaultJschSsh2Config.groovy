@@ -19,4 +19,8 @@ jschSsh2 {
     knownHostsFile = "~/.ssh/known_hosts"
     sshConfigFile = "~/.ssh/config"
     connectionTimeout = 0
+    preserveTimeStamps = true
+    // Normal File Read + Write for user,
+    // Read for group and Everyone
+    defaultFilePermission = "0644"
 }
