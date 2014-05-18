@@ -14,6 +14,9 @@ jschSsh2 {
     password = null
     keyFile = null
     keyFilePassword = null
-    terminal = "vt220"
     port = 22
+    StrictHostKeyChecking = "yes"
+    knownHostsFile = "~/.ssh/known_hosts"
+    sshConfigFile = "~/.ssh/config"
+    connectionTimeout = 0
 }
