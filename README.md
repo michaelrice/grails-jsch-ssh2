@@ -56,7 +56,8 @@ If this were a VMWare ESXi 5.x HostSystem you would see output like the followin
             </esxcli:field>
         </esxcli:struct>
     </esxcli:list>
-</esxcli:output>```
+</esxcli:output>
+```
 
 
 ### TODO
