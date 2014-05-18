@@ -44,7 +44,7 @@ class RunSshCommand extends ConnectionInfo {
      */
     public String execute() throws JSchException {
         try {
-            Session session = getSession()
+            Session session = this.getSession()
             log.trace("running command.")
             // Open channel to run command.
             ChannelExec channel = session.openChannel("exec")

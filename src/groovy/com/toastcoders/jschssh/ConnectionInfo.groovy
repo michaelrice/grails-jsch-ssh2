@@ -104,7 +104,7 @@ class ConnectionInfo {
      * This is to allow you to over ride settings while in
      * development mode.
      */
-    public String sshConfigFile
+    public String sshConfigFile = config.sshConfigFile
 
     /**
      * Connection timeout for connecting to a remote host.
@@ -114,7 +114,7 @@ class ConnectionInfo {
     /**
      * Retrieve Jsch Ssh portion of the Configuration.
      */
-    private ConfigObject getConfig() {
+    public ConfigObject getConfig() {
         return Holders.config.jschSsh2
     }
 
@@ -127,19 +127,19 @@ class ConnectionInfo {
 
             // if the hosts file variable has been set then attempt
             // to load into JSch object.
-            if (!knownHostsFile.empty) {
+            if (!knownHostsFile?.empty) {
                 jSch.setKnownHosts(knownHostsFile)
             }
 
             // If the config file is set attempt to load it
-            if (!sshConfigFile.empty) {
+            if (!sshConfigFile?.empty) {
                 ConfigRepository configRepository = com.jcraft.jsch.OpenSSHConfig.parse(sshConfigFile)
                 jSch.setConfigRepository(configRepository)
             }
 
             // If keyFile is set and password is not attempt to use the key to auth
-            if (!keyFile.empty && password.empty) {
-                if (!keyFilePassword.empty) {
+            if (!keyFile?.empty && password?.empty) {
+                if (!keyFilePassword?.empty) {
                     jSch.addIdentity(keyFile, keyFilePassword)
                 }
                 else {
@@ -153,7 +153,7 @@ class ConnectionInfo {
                 session.timeout = connectionTimeout
             }
 
-            if (!password.empty) {
+            if (!password?.empty) {
                 // If this is not set maybe its a key auth?
                 session.setPassword(password)
             }
