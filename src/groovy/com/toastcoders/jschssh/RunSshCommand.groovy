@@ -53,13 +53,23 @@ class RunSshCommand extends ConnectionInfo {
             // Im not 100% sure what this does. I used the example code from jsch site.
             channel.setInputStream(null)
             channel.setErrStream(System.err)
-            InputStream inputStream = channel.getInputStream()
+            InputStream inputStream
             channel.connect()
 
             // TODO is there a better way to do this in groovy?
             // Right now its just copied from the jsch java examples.
             byte[] tmp = new byte[1024]
             StringBuilder response = new StringBuilder()
+
+            // If we get a non 0 exit status we need to read from the
+            // error stream to return the user what the server said.
+            if (channel.exitStatus != 0) {
+                log.trace("Getting error stream.")
+                inputStream = channel.getErrStream()
+            }
+            else {
+                inputStream = channel.getInputStream()
+            }
 
             while (true) {
                 while (inputStream.available() > 0) {
