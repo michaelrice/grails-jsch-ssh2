@@ -28,7 +28,7 @@ class ConnectionInfo {
      * Username from the config file.
      *
      */
-    public String username = config.user
+    public String username = config.username
 
     /**
      * Password from the config file.

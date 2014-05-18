@@ -10,7 +10,7 @@
  */
 
 jschSsh2 {
-    user = null
+    username = null
     password = null
     keyFile = null
     keyFilePassword = null
