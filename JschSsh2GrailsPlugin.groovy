@@ -29,7 +29,7 @@ class JschSsh2GrailsPlugin {
     def author = "Michael Rice"
     def authorEmail = "michael@michaelrice.org"
     def description = 'Provides JSCH SSH library and a couple of handy builders to easy use from a grails app.'
-    def documentation = "http://michaelrice.github.io/jsch-ssh2"
+    def documentation = "http://michaelrice.github.io/grails-jsch-ssh2"
     def license = "MIT"
     def issueManagement = [ system: "GITHUB", url: "https://github.com/michaelrice/jsch-ssh2/issues" ]
     def scm = [ url: "https://github.com/michaelrice/jsch-ssh2" ]
