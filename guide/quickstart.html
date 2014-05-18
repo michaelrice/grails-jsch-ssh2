@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>2 Quick Start 0.1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/quickstart.html"><strong>2</strong><span>Quick Start</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Provides JSCH SSH library and a couple of handy builders to ease use from a grails app.</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>2 Quick Start - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Michael Rice</p>
+
+                    <p><strong>Version:</strong> 0.1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="quickstart">2 Quick Start</h1>
+This is a quick and dirty how-to detailing how to quickly begin using the plugin. While there is a lot of configurability offered by this plugin, this is a very basic demonstration of its usage.<p class="paragraph"/><h3>Create The Application</h3>
+Create a project named <strong class="bold">JSchSsh2Example</strong>. You can do this by entering:
+<div class="code"><pre>grails create&#45;app JSchSsh2Example</pre></div><p class="paragraph"/><h3>Install the jsch-ssh2 Plugin</h3>
+In @grails-app/conf/BuildConfig.groovy, add:
+<div class="code"><pre>compile ':jsch&#45;ssh2:0.1'</pre></div><p class="paragraph"/><h3>Configuring</h3>
+In <code>grails-app/conf/Config.groovy</code>, You can over ride the following default values:
+<div class="code"><pre>jschSsh2 &#123;
+    user = <span class="java&#45;keyword">null</span>
+    password = <span class="java&#45;keyword">null</span>
+    keyFile = <span class="java&#45;keyword">null</span>
+    keyFilePassword = <span class="java&#45;keyword">null</span>
+    port = 22
+    StrictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
+    knownHostsFile = <span class="java&#45;quote">"~/.ssh/known_hosts"</span>
+    sshConfigFile = <span class="java&#45;quote">"~/.ssh/config"</span>
+    connectionTimeout = 0
+    preserveTimeStamps = <span class="java&#45;keyword">true</span>
+    // Normal File Read + Write <span class="java&#45;keyword">for</span> user,
+    // Read <span class="java&#45;keyword">for</span> group and Everyone
+    defaultFilePermission = <span class="java&#45;quote">"0644"</span>
+&#125;</pre></div><p class="paragraph"/><h3>Usage</h3>
+Create a controller:
+<div class="code"><pre>grails create&#45;controller com.test.Test</pre></div><p class="paragraph"/>In the controller add:
+<div class="code"><pre><span class="java&#45;keyword">package</span> com.test<p class="paragraph"/><span class="java&#45;keyword">import</span> com.jcraft.jsch.JSchException
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.RunSshCommand
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileTo<p class="paragraph"/>class TestController &#123;<p class="paragraph"/>    def index() &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+            <span class="java&#45;keyword">new</span> ScpFileTo().execute() &#123;
+                host = <span class="java&#45;quote">"10.12.254.10"</span>
+                username = <span class="java&#45;quote">"root"</span>
+                password = <span class="java&#45;quote">"password"</span>
+                localFile = <span class="java&#45;quote">"C:/users/errr/desktop/hello_world.txt"</span>
+                remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
+                strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
+                ptimestamp = <span class="java&#45;keyword">false</span>
+            &#125;
+        &#125;
+        <span class="java&#45;keyword">catch</span> (JSchException e) &#123;
+            log.trace(<span class="java&#45;quote">"Oh noes!!"</span>, e)
+            render <span class="java&#45;quote">"There was an error placing file on host. $&#123;e.message&#125;&#60;br /&#62;"</span>
+        &#125;<p class="paragraph"/>        render <span class="java&#45;keyword">new</span> RunSshCommand().execute() &#123;
+            host = <span class="java&#45;quote">"10.12.254.10"</span>
+            username = <span class="java&#45;quote">"root"</span>
+            password = <span class="java&#45;quote">"password"</span>
+            command = <span class="java&#45;quote">"cat /tmp/hello_world.txt"</span>
+            strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
+        &#125;
+    &#125;
+&#125;</pre></div><p class="paragraph"/>Sometimes in development mode it helps to set <strong class="bold">strictHostKeyChecking = "no"</strong>  but it should never be used in production like that.
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Items</h1><div class="menu-sub">
+                        
+                            
+                            <div class="menu-item"><a href="../ref/Items/reference.html">reference</a>
+                            </div>
+                            
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
