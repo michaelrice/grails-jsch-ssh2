@@ -46,13 +46,13 @@ class ScpFileTo extends ConnectionInfo {
      * Preserve timestamps from the file.
      *
      */
-    boolean ptimestamp = config.preserveTimeStamps
+    boolean preserveTimeStamps = config.preserveTimeStamps
 
     /**
      * String representation of file permission.
      *
      */
-    String filePermission = config.defaultFilePermission
+    String defaultFilePermission = config.defaultFilePermission
 
     /**
      * Provides a builder style method to copy a file from the local
@@ -77,7 +77,7 @@ class ScpFileTo extends ConnectionInfo {
             log.trace("Request to copy file to remote host.")
             Session session = this.fetchSession()
             // exec 'scp -t remoteFile' remotely
-            String command = "scp " + (ptimestamp ? "-p" : "") + " -t " + remoteFile
+            String command = "scp " + (preserveTimeStamps ? "-p" : "") + " -t " + remoteFile
             ChannelExec channel = session.openChannel("exec")
             channel.setCommand(command)
 
@@ -94,7 +94,7 @@ class ScpFileTo extends ConnectionInfo {
 
             File _lfile = new File(localFile)
 
-            if (ptimestamp) {
+            if (preserveTimeStamps) {
                 command = "T " + (_lfile.lastModified() / 1000) + " 0"
                 // The access time should be sent here,
                 // but it is not accessible with JavaAPI ;-<
@@ -108,7 +108,7 @@ class ScpFileTo extends ConnectionInfo {
 
             // send "C0644 filesize filename", where filename should not include '/'
             long filesize = _lfile.length()
-            command = "C${filePermission ?: '0644'} " + filesize + " "
+            command = "C${defaultFilePermission ?: '0644'} " + filesize + " "
 
             if (localFile.lastIndexOf('/') > 0) {
                 command += localFile.substring(localFile.lastIndexOf('/') + 1)

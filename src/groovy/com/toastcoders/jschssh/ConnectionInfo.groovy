@@ -55,7 +55,7 @@ class ConnectionInfo {
      * in production. The default is yes. In development mode set to "no".
      *
      */
-    public String strictHostKeyChecking = config.StrictHostKeyChecking
+    public String strictHostKeyChecking = config.strictHostKeyChecking
 
     /**
      * The port the remote ssh server is listening on. Default is 22.

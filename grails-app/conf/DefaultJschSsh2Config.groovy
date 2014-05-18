@@ -15,11 +15,11 @@ jschSsh2 {
     keyFile = null
     keyFilePassword = null
     port = 22
-    StrictHostKeyChecking = "yes"
+    strictHostKeyChecking = "yes"
     knownHostsFile = "~/.ssh/known_hosts"
     sshConfigFile = "~/.ssh/config"
     connectionTimeout = 0
-    preserveTimeStamps = true
+    preserveTimeStamps = false
     // Normal File Read + Write for user,
     // Read for group and Everyone
     defaultFilePermission = "0644"
