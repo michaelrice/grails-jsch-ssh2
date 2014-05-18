@@ -1,0 +1,4 @@
+The jsch-ssh2 plugin for Grails provides a basic ssh client using the JSch library provided by [JCraft|http://www.jcraft.com/jsch/]
+ jsch-ssh2 provides an easy to use client for running commands on a remote host, and copying files to and from a remote host.
+ This plugin strives to provide an easy convention to follow to quickly begin running commands on remote hosts, sending files to remote hosts, and
+ fetching files from remote hosts using the SSH protocol.

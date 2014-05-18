@@ -31,8 +31,8 @@ class JschSsh2GrailsPlugin {
     def description = 'Provides JSCH SSH library and a couple of handy builders to ease use from a grails app.'
     def documentation = "http://michaelrice.github.io/grails-jsch-ssh2"
     def license = "MIT"
-    def issueManagement = [ system: "GITHUB", url: "https://github.com/michaelrice/jsch-ssh2/issues" ]
-    def scm = [ url: "https://github.com/michaelrice/jsch-ssh2" ]
+    def issueManagement = [ system: "GITHUB", url: "https://github.com/michaelrice/grails-jsch-ssh2/issues" ]
+    def scm = [ url: "https://github.com/michaelrice/grails-jsch-ssh2" ]
 
     def onShutdown = { event ->
         // TODO Seems like we should make sure we didnt leave any connections open.
