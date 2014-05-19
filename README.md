@@ -4,6 +4,10 @@ jsch-ssh2
 Grails Plugin using the jsch lib. This plugin also provides several useful builders to ease usage.
 
 
+### Documentation
+
+The full documentation can be found at: https://michaelrice.github.io/grails-jsch-ssh2/
+
 ### Usage
 
 #### RunSshCommand Builder Usage
