@@ -1,0 +1,26 @@
+h3. Configuration
+
+This table lists all the properties that can be set either by the builder or by the @code grails-app/conf/Config.groovy
+{table}
+*Property* | *Description*
+@username@ | Username to log on with @String@ format.
+@password@ | Password used in a password auth login attempt in @String@ format.
+@keyFile@ |  Full path to the key file for private key auth. @String@ format.
+@keyFilePassword@ |  @String@ representation of the password used for the private key file.
+@strictHostKeyChecking@ | @String@ of either "yes" or "no". This can also be set in the ssh_config but the setting here will over ride as it is loaded last.
+@port@ | The port the remote ssh server runs on in @int@ form. 22 is the default which should be correct in most cases.
+@knownHostsFile@ | Full path to the knownHostsFile. It is highly recommended to use this and not ignore security. @String@ format.
+@sshConfigFile@ | Full path to an openBSD ssh_config file for the client to use those options during connection. @String@ format.
+@connectionTimeout@ |  @int@ for timeout. See [jsch | http://epaul.github.io/jsch-documentation/simple.javadoc/com/jcraft/jsch/Session.html#setTimeout(int)] for more details
+@preserveTimeStamps@ | @bool@ Should you try to preserve the time stamps on the file. (~Experimental~)
+@defaultFilePermission@ | @String@ Unix file permission. Must be 4 digits. 0644 is default
+{table}
+
+The following properties can not be set in the Config.groovy and must be setup where applicable by the user.
+{table}
+*Property* | *Description* | *Available In*
+@command@ | @String@ of the command you want to run on the remote system. |  RunSshCommand
+@localFile@ | @String@ of the full path to the file on the local server | ScpFileTo
+@remoteFile@ | @String@ of the full path to the file on the remote server | ScpFileTo
+{table}
+

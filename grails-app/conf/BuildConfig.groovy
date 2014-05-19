@@ -11,7 +11,6 @@ grails.project.dependency.resolution = {
     log "warn"
     // whether to do a secondary resolve on plugin installation,
     // not advised and here for backwards compatibility
-    legacyResolve false
     repositories {
         grailsCentral()
         mavenCentral()
