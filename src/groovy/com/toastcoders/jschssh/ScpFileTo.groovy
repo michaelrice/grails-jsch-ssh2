@@ -173,36 +173,4 @@ class ScpFileTo extends ConnectionInfo {
             }
         }
     }
-
-    int checkAck(InputStream inputStream ) throws IOException {
-        int b = inputStream.read()
-        // b may be 0 for success,
-        //          1 for error,
-        //          2 for fatal error,
-        //          -1
-        if (b == 0) {
-            return b
-        }
-
-        if (b == -1) {
-            return b
-        }
-
-        if (b == 1 || b == 2) {
-            StringBuffer sb = new StringBuffer()
-            inputStream.eachByte {
-                if (it != "\n") {
-                    sb.append(it)
-                }
-            }
-
-            if (b == 1) { // error
-                log.error(sb.toString())
-            }
-            if (b == 2) { // fatal error
-                log.error(sb.toString())
-            }
-        }
-        return b
-    }
 }
