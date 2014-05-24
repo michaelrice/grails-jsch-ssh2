@@ -22,7 +22,7 @@ class ScpFileFrom extends ConnectionInfo {
      */
     private Logger log = Logger.getLogger(ScpFileFrom)
 
-    InputStream fileInputStream = null
+    InputStream remoteFileStream = null
     /**
      * FileInputStream of the local file that will be getting sent to the
      * remote server.
@@ -93,52 +93,51 @@ class ScpFileFrom extends ConnectionInfo {
             ChannelExec channel = session.openChannel("exec")
             channel.setCommand(command)
 
-            // Get I/O streams for remote scp.
+            // Get I/O streams for remote scp. Must be called before connect.
+            // outputStream is for messages coming from the server
             outputStream = channel.getOutputStream()
-            fileInputStream = channel.getInputStream()
+            // fileinputStream is for
+            remoteFileStream = channel.getInputStream()
 
             channel.connect()
 
-            byte[] buffer = new byte[1024]
+            byte[] buffer = new byte[8192]
 
             // send '\0'
             buffer[0] = 0
             outputStream.write(buffer, 0, 1)
             outputStream.flush()
 
-            String t
             while (true) {
-                int c = checkAck(fileInputStream)
-                log.trace("c == ${c}")
-                // Ascii C is 67
+                log.trace("Checking filestream for errors.")
+                int c = checkAck(remoteFileStream)
+                // Ascii C is 67 I cant find in the RFC or jsch docs why
+                // this is sent or anything about what it means, but my
+                // best guess is C for complete.
                 if (c != 'C') {
-                    log.trace("c != C ${c}")
                     break
                 }
 
                 // read '0644 '
-                fileInputStream.read(buffer, 0, 5)
-
+                remoteFileStream.read(buffer, 0, 5)
                 long filesize = 0L
                 while (true) {
-                    if (fileInputStream.read(buffer, 0, 1) < 0 || buffer[0] == ' ') {
-                        log.trace("An error has happened trying to read the inputStream")
+                    log.trace("Checking remoteFileStream for errors.")
+                    if (remoteFileStream.read(buffer, 0, 1) < 0 ) {
+                        log.trace("Error reading remoteFileStream")
                         break
                     }
-
-                    log.trace("Buffer[0] == ${buffer[0]}")
-                    t = buffer[0] as String
-                    log.trace("buffer[0] ${buffer[0].getClass()}")
-                    log.trace("t: ${t} class: ${t.getClass()} filesize: ${filesize}")
-                    filesize = filesize * 10L + (long) (t.minus('0') as int)
+                    if (buffer[0] == ' ') {
+                        log.trace("Finished reading input stream for file size.")
+                        break
+                    }
+                    filesize = filesize * 10L + (long) (new String(buffer[0]) as int)
                     log.trace("filesize again: ${filesize}")
                 }
 
-                log.trace("getting ready to read input in for loop. filesize: ${filesize}")
                 String file = null
                 for (int i = 0; ; i++) {
-                    fileInputStream.read(buffer, i, 1)
-                    log.trace("chomp chomp ${i} buffer[i] == ${buffer[i]}")
+                    remoteFileStream.read(buffer, i, 1)
                     if (buffer[i] == (byte) 0x0a) {
                         file = new String(buffer, 0, i)
                         log.trace("found new line breaking!!")
@@ -154,21 +153,13 @@ class ScpFileFrom extends ConnectionInfo {
                 newFileOutputStream = new FileOutputStream(prefix == null ? localFile : prefix + file)
                 int foo
                 while (true) {
-                    log.trace("Another trip through this while true loop")
                     if (buffer.length < filesize) {
-                        // TODO remove this log
-                        log.trace("Buffer length is < filesize. Setting foo =  ${buffer.length} < ${filesize}")
                         foo = buffer.length
                     }
                     else {
-                        // TODO remove this log
-                        log.trace("filesize is > buffer length. Setting foo = ${filesize} > ${buffer.length} before foo: ${foo}")
                         foo = (int) filesize
                     }
-                    // TODO remove this log
-                    log.trace("Reading from fileInputStream at ${foo}")
-                    foo = fileInputStream.read(buffer, 0, foo)
-                    log.trace("foo: ${foo}")
+                    foo = remoteFileStream.read(buffer, 0, foo)
                     if (foo < 0) {
                         // error
                         log.trace("An error has been detected. foo < 0 ${foo}")
@@ -177,7 +168,6 @@ class ScpFileFrom extends ConnectionInfo {
                     log.trace("Writing buffer we just read into the new file.")
                     newFileOutputStream.write(buffer, 0, foo)
                     filesize -= foo
-                    log.trace("filesize: ${filesize} foo: ${foo}")
                     if (filesize == 0L) {
                         log.trace("Completed writing the newFile to disk")
                         break
@@ -189,7 +179,7 @@ class ScpFileFrom extends ConnectionInfo {
                 log.trace("Setting newFileOutputStream to null")
                 newFileOutputStream = null
 
-                if (checkAck(fileInputStream) != 0) {
+                if (checkAck(remoteFileStream) != 0) {
                     throw new JSchException("There was an error writing data into the file.")
                 }
 
@@ -200,6 +190,7 @@ class ScpFileFrom extends ConnectionInfo {
             }
             session.disconnect()
             channel.disconnect()
+            log.debug("Completed ScpFileFrom transfer")
         }
         catch (Exception e) {
 
