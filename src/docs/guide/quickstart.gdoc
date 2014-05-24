@@ -13,7 +13,7 @@ compile ':jsch-ssh2:0.1'
 {code}
 
 h3. Configuring
-In @grails-app/conf/Config.groovy@, You can over ride the following default values:
+In @grails-app/conf/Config.groovy, You can over ride the following default values:
 {code}
 jschSsh2 {
     user = null
@@ -45,6 +45,7 @@ package com.test
 import com.jcraft.jsch.JSchException
 import com.toastcoders.jschssh.RunSshCommand
 import com.toastcoders.jschssh.ScpFileTo
+import com.toastcoders.jschssh.ScpFileFrom
 
 class TestController {
 
@@ -55,7 +56,7 @@ class TestController {
                 host = "10.12.254.10"
                 username = "root"
                 password = "password"
-                localFile = "C:/users/errr/desktop/hello_world.txt"
+                localFile = "/home/errr/desktop/hello_world.txt"
                 remoteFile = "/tmp/hello_world.txt"
                 strictHostKeyChecking = "yes"
                 ptimestamp = false
@@ -72,6 +73,19 @@ class TestController {
             password = "password"
             command = "cat /tmp/hello_world.txt"
             strictHostKeyChecking = "yes"
+        }
+
+        try {
+            new ScpFileFrom().execute() {
+                host = "10.12.254.10"
+                username = "root"
+                password = "password"
+                localFile = "/home/errr/my_cool_new_file.txt"
+                remoteFile = "/tmp/hello_world.txt"
+            }
+        }
+        catch (JSchException je) {
+            log.trace("Failed to copy file from remote host to local host.")
         }
     }
 }
