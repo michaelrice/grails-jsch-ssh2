@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Quick Start 0.1</title>
+    <title>2 Quick Start 0.2</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -71,7 +71,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Michael Rice</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.2</p>
 
                     
                 </div>
@@ -86,7 +86,7 @@ Create a project named <strong class="bold">JSchSsh2Example</strong>. You can do
 <div class="code"><pre>grails create&#45;app JSchSsh2Example</pre></div><p class="paragraph"/><h3>Install the jsch-ssh2 Plugin</h3>
 In @grails-app/conf/BuildConfig.groovy, add:
 <div class="code"><pre>compile ':jsch&#45;ssh2:0.1'</pre></div><p class="paragraph"/><h3>Configuring</h3>
-In <code>grails-app/conf/Config.groovy</code>, You can over ride the following default values:
+In @grails-app/conf/Config.groovy, You can over ride the following default values:
 <div class="code"><pre>jschSsh2 &#123;
     user = <span class="java&#45;keyword">null</span>
     password = <span class="java&#45;keyword">null</span>
@@ -106,12 +106,13 @@ Create a controller:
 <div class="code"><pre>grails create&#45;controller com.test.Test</pre></div><p class="paragraph"/>In the controller add:
 <div class="code"><pre><span class="java&#45;keyword">package</span> com.test<p class="paragraph"/><span class="java&#45;keyword">import</span> com.jcraft.jsch.JSchException
 <span class="java&#45;keyword">import</span> com.toastcoders.jschssh.RunSshCommand
-<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileTo<p class="paragraph"/>class TestController &#123;<p class="paragraph"/>    def index() &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileTo
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileFrom<p class="paragraph"/>class TestController &#123;<p class="paragraph"/>    def index() &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
             <span class="java&#45;keyword">new</span> ScpFileTo().execute() &#123;
                 host = <span class="java&#45;quote">"10.12.254.10"</span>
                 username = <span class="java&#45;quote">"root"</span>
                 password = <span class="java&#45;quote">"password"</span>
-                localFile = <span class="java&#45;quote">"C:/users/errr/desktop/hello_world.txt"</span>
+                localFile = <span class="java&#45;quote">"/home/errr/desktop/hello_world.txt"</span>
                 remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
                 strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
                 ptimestamp = <span class="java&#45;keyword">false</span>
@@ -126,6 +127,17 @@ Create a controller:
             password = <span class="java&#45;quote">"password"</span>
             command = <span class="java&#45;quote">"cat /tmp/hello_world.txt"</span>
             strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
+        &#125;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+            <span class="java&#45;keyword">new</span> ScpFileFrom().execute() &#123;
+                host = <span class="java&#45;quote">"10.12.254.10"</span>
+                username = <span class="java&#45;quote">"root"</span>
+                password = <span class="java&#45;quote">"password"</span>
+                localFile = <span class="java&#45;quote">"/home/errr/my_cool_new_file.txt"</span>
+                remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
+            &#125;
+        &#125;
+        <span class="java&#45;keyword">catch</span> (JSchException je) &#123;
+            log.trace(<span class="java&#45;quote">"Failed to copy file from remote host to local host."</span>)
         &#125;
     &#125;
 &#125;</pre></div><p class="paragraph"/>Sometimes in development mode it helps to set <strong class="bold">strictHostKeyChecking = "no"</strong>  but it should never be used in production like that.

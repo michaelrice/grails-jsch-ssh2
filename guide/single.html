@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Jsch Ssh2 Plugin 0.1</title>
+        <title>Jsch Ssh2 Plugin 0.2</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -56,7 +56,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Jsch Ssh2 Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Michael Rice</p>
-                            <p><strong>Version:</strong> 0.1</p>
+                            <p><strong>Version:</strong> 0.2</p>
                             
                         </div>
 
@@ -89,7 +89,7 @@ Create a project named <strong class="bold">JSchSsh2Example</strong>. You can do
 <div class="code"><pre>grails create&#45;app JSchSsh2Example</pre></div><p class="paragraph"/><h3>Install the jsch-ssh2 Plugin</h3>
 In @grails-app/conf/BuildConfig.groovy, add:
 <div class="code"><pre>compile ':jsch&#45;ssh2:0.1'</pre></div><p class="paragraph"/><h3>Configuring</h3>
-In <code>grails-app/conf/Config.groovy</code>, You can over ride the following default values:
+In @grails-app/conf/Config.groovy, You can over ride the following default values:
 <div class="code"><pre>jschSsh2 &#123;
     user = <span class="java&#45;keyword">null</span>
     password = <span class="java&#45;keyword">null</span>
@@ -109,12 +109,13 @@ Create a controller:
 <div class="code"><pre>grails create&#45;controller com.test.Test</pre></div><p class="paragraph"/>In the controller add:
 <div class="code"><pre><span class="java&#45;keyword">package</span> com.test<p class="paragraph"/><span class="java&#45;keyword">import</span> com.jcraft.jsch.JSchException
 <span class="java&#45;keyword">import</span> com.toastcoders.jschssh.RunSshCommand
-<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileTo<p class="paragraph"/>class TestController &#123;<p class="paragraph"/>    def index() &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileTo
+<span class="java&#45;keyword">import</span> com.toastcoders.jschssh.ScpFileFrom<p class="paragraph"/>class TestController &#123;<p class="paragraph"/>    def index() &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
             <span class="java&#45;keyword">new</span> ScpFileTo().execute() &#123;
                 host = <span class="java&#45;quote">"10.12.254.10"</span>
                 username = <span class="java&#45;quote">"root"</span>
                 password = <span class="java&#45;quote">"password"</span>
-                localFile = <span class="java&#45;quote">"C:/users/errr/desktop/hello_world.txt"</span>
+                localFile = <span class="java&#45;quote">"/home/errr/desktop/hello_world.txt"</span>
                 remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
                 strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
                 ptimestamp = <span class="java&#45;keyword">false</span>
@@ -129,6 +130,17 @@ Create a controller:
             password = <span class="java&#45;quote">"password"</span>
             command = <span class="java&#45;quote">"cat /tmp/hello_world.txt"</span>
             strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
+        &#125;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+            <span class="java&#45;keyword">new</span> ScpFileFrom().execute() &#123;
+                host = <span class="java&#45;quote">"10.12.254.10"</span>
+                username = <span class="java&#45;quote">"root"</span>
+                password = <span class="java&#45;quote">"password"</span>
+                localFile = <span class="java&#45;quote">"/home/errr/my_cool_new_file.txt"</span>
+                remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
+            &#125;
+        &#125;
+        <span class="java&#45;keyword">catch</span> (JSchException je) &#123;
+            log.trace(<span class="java&#45;quote">"Failed to copy file from remote host to local host."</span>)
         &#125;
     &#125;
 &#125;</pre></div><p class="paragraph"/>Sometimes in development mode it helps to set <strong class="bold">strictHostKeyChecking = "no"</strong>  but it should never be used in production like that.
@@ -136,8 +148,8 @@ Create a controller:
 
 <h1 id="configuration">3 Configuration</h1>
 <h3>Configuration</h3><p class="paragraph"/>This table lists all the properties that can be set either by the builder or by the @code grails-app/conf/Config.groovy
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td><code>username</code></td><td>Username to log on with <code>String</code> format.</td></tr><tr class="table-even"><td><code>password</code></td><td>Password used in a password auth login attempt in <code>String</code> format.</td></tr><tr class="table-odd"><td><code>keyFile</code></td><td>Full path to the key file for private key auth. <code>String</code> format.</td></tr><tr class="table-even"><td><code>keyFilePassword</code></td><td><code>String</code> representation of the password used for the private key file.</td></tr><tr class="table-odd"><td><code>strictHostKeyChecking</code></td><td><code>String</code> of either "yes" or "no". This can also be set in the ssh_config but the setting here will over ride as it is loaded last.</td></tr><tr class="table-even"><td><code>port</code></td><td>The port the remote ssh server runs on in <code>int</code> form. 22 is the default which should be correct in most cases.</td></tr><tr class="table-odd"><td><code>knownHostsFile</code></td><td>Full path to the knownHostsFile. It is highly recommended to use this and not ignore security. <code>String</code> format.</td></tr><tr class="table-even"><td><code>sshConfigFile</code></td><td>Full path to an openBSD ssh_config file for the client to use those options during connection. <code>String</code> format.</td></tr><tr class="table-odd"><td><code>connectionTimeout</code></td><td><code>int</code> for timeout. See <a href=" http://epaul.github.io/jsch-documentation/simple.javadoc/com/jcraft/jsch/Session.html#setTimeout(int)" target="blank">jsch </a> for more details</td></tr><tr class="table-even"><td><code>preserveTimeStamps</code></td><td><code>bool</code> Should you try to preserve the time stamps on the file. (~Experimental~)</td></tr><tr class="table-odd"><td><code>defaultFilePermission</code></td><td><code>String</code> Unix file permission. Must be 4 digits. 0644 is default</td></tr></table><p class="paragraph"/>The following properties can not be set in the Config.groovy and must be setup where applicable by the user.
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Description</strong></th><th><strong class="bold">Available In</strong></th></tr><tr class="table-odd"><td><code>command</code></td><td><code>String</code> of the command you want to run on the remote system.</td><td>RunSshCommand</td></tr><tr class="table-even"><td><code>localFile</code></td><td><code>String</code> of the full path to the file on the local server</td><td>ScpFileTo</td></tr><tr class="table-odd"><td><code>remoteFile</code></td><td><code>String</code> of the full path to the file on the remote server</td><td>ScpFileTo</td></tr></table><p class="paragraph"/>
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td><code>username</code></td><td>Username to log on with <code>String</code> format.</td></tr><tr class="table-even"><td><code>password</code></td><td>Password used in a password auth login attempt in <code>String</code> format.</td></tr><tr class="table-odd"><td><code>keyFile</code></td><td>Full path to the key file for private key auth. <code>String</code> format.</td></tr><tr class="table-even"><td><code>keyFilePassword</code></td><td><code>String</code> representation of the password used for the private key file.</td></tr><tr class="table-odd"><td><code>strictHostKeyChecking</code></td><td><code>String</code> of either "yes" or "no". This can also be set in the ssh_config but the setting here will over ride as it is loaded last.</td></tr><tr class="table-even"><td><code>port</code></td><td>The port the remote ssh server runs on in <code>int</code> form. 22 is the default which should be correct in most cases.</td></tr><tr class="table-odd"><td><code>knownHostsFile</code></td><td>Full path to the knownHostsFile. It is highly recommended to use this and not ignore security. <code>String</code> format.</td></tr><tr class="table-even"><td><code>sshConfigFile</code></td><td>Full path to an openBSD ssh_config file for the client to use those options during connection. <code>String</code> format.</td></tr><tr class="table-odd"><td><code>connectionTimeout</code></td><td><code>int</code> for timeout. See <a href=" http://epaul.github.io/jsch-documentation/simple.javadoc/com/jcraft/jsch/Session.html#setTimeout(int)" target="blank">jsch </a> for more details</td></tr><tr class="table-even"><td><code>preserveTimeStamps</code></td><td><code>bool</code> Should you try to preserve the time stamps on the file. (Experimental)</td></tr><tr class="table-odd"><td><code>defaultFilePermission</code></td><td><code>String</code> Unix file permission. Must be 4 digits. 0644 is default</td></tr></table><p class="paragraph"/>The following properties can not be set in the Config.groovy and must be setup where applicable by the user.
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Description</strong></th><th><strong class="bold">Available In</strong></th></tr><tr class="table-odd"><td><code>command</code></td><td><code>String</code> of the command you want to run on the remote system.</td><td>RunSshCommand</td></tr><tr class="table-even"><td><code>localFile</code></td><td><code>String</code> of the full path to the file on the local server</td><td>ScpFileTo, ScpFileFrom</td></tr><tr class="table-odd"><td><code>remoteFile</code></td><td><code>String</code> of the full path to the file on the remote server</td><td>ScpFileTo, ScpFileFrom</td></tr></table><p class="paragraph"/>
 
                     </div>
                 </td>
