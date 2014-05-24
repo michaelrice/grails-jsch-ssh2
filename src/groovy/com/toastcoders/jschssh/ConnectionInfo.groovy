@@ -121,33 +121,38 @@ class ConnectionInfo {
 
             // if the hosts file variable has been set then attempt
             // to load into JSch object.
-            if (!knownHostsFile?.empty) {
+            if (knownHostsFile) {
+                log.trace("Adding known hosts file to client.")
                 jSch.setKnownHosts(knownHostsFile)
             }
 
             // If the config file is set attempt to load it
-            if (!sshConfigFile?.empty) {
+            if (sshConfigFile) {
+                log.trace("Loading ssh config file")
                 ConfigRepository configRepository = com.jcraft.jsch.OpenSSHConfig.parse(sshConfigFile)
                 jSch.setConfigRepository(configRepository)
             }
 
             // If keyFile is set and password is not attempt to use the key to auth
-            if (!keyFile?.empty && password?.empty) {
-                if (!keyFilePassword?.empty) {
+            if (keyFile && !password) {
+                log.trace("Attempting an ssh key auth.")
+                if (keyFilePassword) {
+                    log.trace("Adding ${keyFile}, and keyFilePassword to identity.")
                     jSch.addIdentity(keyFile, keyFilePassword)
                 }
                 else {
+                    log.trace("Adding ${keyFile} to identity.")
                     jSch.addIdentity(keyFile)
                 }
             }
-
+            log.trace("Opening session to remote host.")
             session = jSch.getSession(username, host, port)
             // If the connectionTimeout is set use it instead of jsch default.
             if (connectionTimeout) {
                 session.timeout = connectionTimeout
             }
 
-            if (!password?.empty) {
+            if (password) {
                 // If this is not set maybe its a key auth?
                 session.setPassword(password)
             }

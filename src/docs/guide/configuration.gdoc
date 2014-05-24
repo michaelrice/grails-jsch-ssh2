@@ -12,7 +12,7 @@ This table lists all the properties that can be set either by the builder or by 
 @knownHostsFile@ | Full path to the knownHostsFile. It is highly recommended to use this and not ignore security. @String@ format.
 @sshConfigFile@ | Full path to an openBSD ssh_config file for the client to use those options during connection. @String@ format.
 @connectionTimeout@ |  @int@ for timeout. See [jsch | http://epaul.github.io/jsch-documentation/simple.javadoc/com/jcraft/jsch/Session.html#setTimeout(int)] for more details
-@preserveTimeStamps@ | @bool@ Should you try to preserve the time stamps on the file. (~Experimental~)
+@preserveTimeStamps@ | @bool@ Should you try to preserve the time stamps on the file. (Experimental)
 @defaultFilePermission@ | @String@ Unix file permission. Must be 4 digits. 0644 is default
 {table}
 
@@ -20,7 +20,7 @@ The following properties can not be set in the Config.groovy and must be setup w
 {table}
 *Property* | *Description* | *Available In*
 @command@ | @String@ of the command you want to run on the remote system. |  RunSshCommand
-@localFile@ | @String@ of the full path to the file on the local server | ScpFileTo
-@remoteFile@ | @String@ of the full path to the file on the remote server | ScpFileTo
+@localFile@ | @String@ of the full path to the file on the local server | ScpFileTo, ScpFileFrom
+@remoteFile@ | @String@ of the full path to the file on the remote server | ScpFileTo, ScpFileFrom
 {table}
 
