@@ -90,7 +90,6 @@ class TestController {
                 localFile = "C:/users/errr/desktop/hello_world.txt"
                 remoteFile = "/tmp/hello_world.txt"
                 strictHostKeyChecking = "yes"
-                ptimestamp = false
             }
         }
         catch (JSchException e) {
