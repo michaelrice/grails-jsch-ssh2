@@ -85,7 +85,7 @@ This is a quick and dirty how-to detailing how to quickly begin using the plugin
 Create a project named <strong class="bold">JSchSsh2Example</strong>. You can do this by entering:
 <div class="code"><pre>grails create&#45;app JSchSsh2Example</pre></div><p class="paragraph"/><h3>Install the jsch-ssh2 Plugin</h3>
 In @grails-app/conf/BuildConfig.groovy, add:
-<div class="code"><pre>compile ':jsch&#45;ssh2:0.1'</pre></div><p class="paragraph"/><h3>Configuring</h3>
+<div class="code"><pre>compile ':jsch&#45;ssh2:0.2'</pre></div><p class="paragraph"/><h3>Configuring</h3>
 In @grails-app/conf/Config.groovy, You can over ride the following default values:
 <div class="code"><pre>jschSsh2 &#123;
     user = <span class="java&#45;keyword">null</span>
@@ -115,7 +115,6 @@ Create a controller:
                 localFile = <span class="java&#45;quote">"/home/errr/desktop/hello_world.txt"</span>
                 remoteFile = <span class="java&#45;quote">"/tmp/hello_world.txt"</span>
                 strictHostKeyChecking = <span class="java&#45;quote">"yes"</span>
-                ptimestamp = <span class="java&#45;keyword">false</span>
             &#125;
         &#125;
         <span class="java&#45;keyword">catch</span> (JSchException e) &#123;
