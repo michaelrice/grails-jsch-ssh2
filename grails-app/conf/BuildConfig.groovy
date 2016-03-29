@@ -21,7 +21,7 @@ grails.project.dependency.resolution = {
         mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        compile 'com.jcraft:jsch:0.1.51'
+        compile 'com.jcraft:jsch:0.1.53'
     }
 
     plugins {

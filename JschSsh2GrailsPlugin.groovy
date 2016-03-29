@@ -17,7 +17,7 @@ import groovy.util.ConfigSlurper
  * URL: http://opensource.org/licenses/MIT
  */
 class JschSsh2GrailsPlugin {
-    def version = "0.2"
+    def version = "0.3"
     def grailsVersion = "2.0 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
