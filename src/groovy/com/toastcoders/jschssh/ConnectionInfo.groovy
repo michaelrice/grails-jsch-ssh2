@@ -158,6 +158,7 @@ class ConnectionInfo {
             }
 
             session.setConfig("StrictHostKeyChecking", strictHostKeyChecking)
+            session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password")
 
             // Connect to the server to run the command.
             session.connect()
